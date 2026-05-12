@@ -45,7 +45,7 @@ sdk list java | grep '21'
 - Running the below command will install Java 20.
 
 ```linux
-sdk install 21.0.1-tem
+sdk install java 21.0.1-tem
 ```
 
 
