@@ -38,7 +38,7 @@ class ProductInfoServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     void retrieveProductInfo_http() throws IOException, InterruptedException {
         var productInfo = productInfoService.retrieveProductInfoHttp("ABC");
         LoggerUtil.log("productInfo : "+ productInfo);

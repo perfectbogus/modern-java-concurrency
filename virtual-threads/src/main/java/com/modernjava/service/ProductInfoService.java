@@ -7,6 +7,7 @@ import com.modernjava.util.CommonUtil;
 import com.modernjava.util.LoggerUtil;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.concurrent.StructuredTaskScope;
@@ -22,8 +23,13 @@ public class ProductInfoService {
 
 
     public ProductInfo retrieveProductInfoHttp(String productId) throws IOException, InterruptedException {
-      return null;
+        // http client
+        var httpClient = CommonUtil.httpClient;
+        HttpRequest httpRequest = requestBuilder(PRODUCT_INFO_URL);
 
+        HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        LoggerUtil.log("response code " + response.statusCode());
+        return objectMapper.readValue(response.body(), ProductInfo.class);
     }
 
     public ProductInfo retrieveProductInfo(String productId) {
