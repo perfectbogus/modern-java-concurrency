@@ -23,8 +23,10 @@ public class MaxVirtualThreads {
     public static void main(String[] args) {
 
         //Demo1
-        int MAX_THREADS =100_000; //10000, 100_000, 1000_000
+        int MAX_THREADS =10; //10000, 100_000, 1000_000
         // For 1024 MB
+        var noOfCores = CommonUtil.noOfCores();
+        log("noOfCores : " + noOfCores);
 
        // int MAX_THREADS = 10;
         //Demo 2- Blocking nature of Java Threads
@@ -39,7 +41,7 @@ public class MaxVirtualThreads {
 
         log("Program Completed!");
 
-       // CommonUtil.sleep(10000);
+        CommonUtil.sleep(10000);
 
     }
 }
