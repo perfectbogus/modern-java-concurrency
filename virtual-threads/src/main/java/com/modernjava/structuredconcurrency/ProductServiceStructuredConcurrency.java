@@ -48,6 +48,29 @@ public class ProductServiceStructuredConcurrency {
         }
     }
 
+    public ProductV2 retrieveProductDetailsHttp(String productId) {
+        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+            // Fork the tasks
+            var productInfoSubtask = scope.fork(() -> productInfoService.retrieveProductInfoHttp(productId));
+            var reviewSubTask = scope.fork(() -> reviewService.retrieveReviewsHttp(productId));
+
+            // Join the tasks
+            scope.join().throwIfFailed();// non-blocking call
+
+            var productInfo = productInfoSubtask.get();
+            var reviews = reviewSubTask.get();
+
+            var deliveryDetailsSubtask = scope.fork(() -> deliveryService.retrieveDeliveryInfoHttp(productInfo));
+            scope.join().throwIfFailed();
+
+            var deliveryDetails = deliveryDetailsSubtask.get();
+
+            return new ProductV2(productId, productInfo, reviews, deliveryDetails);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ProductV2 retrieveProductDetailsV2(String productId) {
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
             // Fork the tasks
