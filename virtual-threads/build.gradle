@@ -36,3 +36,8 @@ test {
     useJUnitPlatform()
     jvmArgs(["--enable-preview"])
 }
+
+task runExploreVirtualThreads(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.modernjava.virtualthreads.ExploreVirtualThreads'
+}
