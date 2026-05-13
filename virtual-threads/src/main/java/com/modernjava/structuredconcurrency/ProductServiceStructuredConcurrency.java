@@ -7,6 +7,8 @@ import com.modernjava.service.DeliveryService;
 import com.modernjava.service.ProductInfoService;
 import com.modernjava.service.ReviewService;
 
+import java.util.concurrent.StructuredTaskScope;
+
 
 public class ProductServiceStructuredConcurrency {
 
@@ -28,8 +30,21 @@ public class ProductServiceStructuredConcurrency {
 
 
     public Product retrieveProductDetails(String productId) {
+        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+            // Fork the tasks
+            var productInfoSubtask = scope.fork(() -> productInfoService.retrieveProductInfo(productId));
+            var reviewSubTask = scope.fork(() -> reviewService.retrieveReviews(productId));
 
-      return null;
+            // Join the tasks
+            scope.join().throwIfFailed();// non-blocking call
+
+            var productInfo = productInfoSubtask.get();
+            var reviews = reviewSubTask.get();
+
+            return new Product(productId, productInfo, reviews);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
