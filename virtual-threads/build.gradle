@@ -41,3 +41,8 @@ task runExploreVirtualThreads(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.modernjava.virtualthreads.ExploreVirtualThreads'
 }
+
+task runMaxVirtualThreads(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.modernjava.virtualthreads.MaxVirtualThreads'
+}

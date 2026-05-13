@@ -23,7 +23,7 @@ public class MaxVirtualThreads {
     public static void main(String[] args) {
 
         //Demo1
-        int MAX_THREADS =1000_000; //10000, 100_000, 1000_000
+        int MAX_THREADS =100_000; //10000, 100_000, 1000_000
         // For 1024 MB
 
        // int MAX_THREADS = 10;
