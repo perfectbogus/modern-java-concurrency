@@ -1,5 +1,6 @@
 package com.modernjava.service;
 
+import com.modernjava.domain.ProductInfo;
 import com.modernjava.util.LoggerUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,13 +23,18 @@ class ProductInfoServiceTest {
     @Test
     void retrieveProductInfo() {
         // In this case, the time it takes is close to the first task which completes in 1 second.
-
+        ProductInfo productInfo = productInfoService.retrieveProductInfor_MultipleSources("ABC");
+        assertNotNull(productInfo);
     }
 
     @Test
     void retrieveProductInfo_simulateError() {
         // In this case, the time it takes is close to the first task which completes in 1 second.
+        when(productInfoService.retrieveProductInfo(anyString()))
+                .thenThrow(new RuntimeException("Exception Occurred"));
 
+        ProductInfo productInfo = productInfoService.retrieveProductInfor_MultipleSources("ABC");
+        assertNotNull(productInfo);
     }
 
     @Test
